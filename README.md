@@ -14,6 +14,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 
 ```text
 .
+├── vars/
+│   ├── ocp_connect.yml
 ├── playbooks/
 │   ├── change_password.yml
 │   ├── set_krn.yml
@@ -49,7 +51,9 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── spectrum_x_cni
     └── fwctl_krn_module
 
-🛠 Modules, Playbooks, and Roles Map
+🛠 General variable, Modules, Playbooks, and Roles Map
+
+"Global variables located within the vars directory"
 
 | Module / Function           | Playbook                                 | Role(s)                              | CRD / Sub-components                                     |
 |-----------------------------|------------------------------------------|--------------------------------------|----------------------------------------------------------|
@@ -69,6 +73,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | Physical Rail Interfaces    | ph_rail_config.yml                       | ph_rail_interface                    | Configure physical rail interface attributes             |
 | Spectrum-X CNI              | config_sptrx_cni.yml                     | spectrum_x_cni                       | Configure Spectrum-X CNI and OVSNetwork Custom Resources |
 | FWCTL Module                | fwctl_config.yml                         | fwctl_krn_module                     | Configure FWCTL Kernel Module                            |
+
+
 
 
 🚀 Prerequisites
