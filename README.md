@@ -50,7 +50,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── ph_rail_interface
     ├── spectrum_x_cni
     └── fwctl_krn_module
-
+```
 🛠 General variable, Modules, Playbooks, and Roles Map
 
 * __Global variables located within the vars directory__
