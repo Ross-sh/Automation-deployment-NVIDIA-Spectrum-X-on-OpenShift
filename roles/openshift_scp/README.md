@@ -21,3 +21,16 @@ oles/openshift_scp/
 ### Required Variables
 * node_role: worker
 * core_password: "Your Paassword"
+
+## How to run
+from the project root directory run the following command
+Bash
+
+```
+ansible-navigator run -m stdout playbooks/change_password.yml  # If you have preconfigured image with all required modules to run ansible
+```
+or
+```
+ansible-playbook -i playbooks/change_password.yml
+```
+
