@@ -1,38 +1,41 @@
-Role Name
+Ansible Role: Node Feature Discovery (NFD) Operator openshift_nfd
 =========
 
-A brief description of the role goes here.
+Deploy and configure OpenShift NFD Operator
 
-Requirements
-------------
+* Namespace: openshift-nfd
+* Role: Scans host hardware at boot and periodically applies Kubernetes node labels based on PCI vendor and device IDs.
+* Key Labels:
+  * feature.node.kubernetes.io/pci-10de.present=true (NVIDIA GPUs)
+  * feature.node.kubernetes.io/pci-15b3.present=true (NVIDIA/Mellanox ConnectX-7/8 SuperNICs & BlueField-3 DPUs)
+* Impact: Acts as the deployment selector for the GPU and Network operators.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
---------------
+## ⚙️ Role Variables
+```
+nfd_namespace: "openshift-nfd"
+nfd_channel: "stable"
+```
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## 🌲 Role Structure
+```
+roles/openshift_nfd/
+├── README.md             # Role documentation
+├── defaults/
+│   └── main.yml          # Default role variables
+├── files/
+├── tasks/
+│   └── main.yml          # Main entry point for role execution
+└── vars/
+    └── main.yml          # Role-specific internal variables
+```
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## How to run
+From the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/deploy_nfd.yml/ # # If you have preconfigured image with all required modules to run ansible
+```
+or
+```
+ansible-playbook -i playbooks/deploy_nfd.yml
+```
