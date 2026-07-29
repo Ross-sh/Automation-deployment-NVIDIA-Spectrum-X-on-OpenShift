@@ -6,7 +6,7 @@ The first step is to assign a hash password to the core user variable using the 
 ## 🌲 Directory Structure
 ```text
 .
-oles/openshift_scp/
+roles/openshift_scp/
 ├── README.md              # Role documentation
 ├── defaults/
 │   └── main.yml          # Default role variables
