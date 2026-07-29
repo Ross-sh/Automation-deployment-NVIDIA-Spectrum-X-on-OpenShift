@@ -1,7 +1,7 @@
 Ansible Role:  openshift_rdma
 =========
 
-In multi-plane / multi-rail OpenShift deployments, host network interfaces (e.g., eth0, eth1) can get assigned randomly across node reboots.
+Enable RDMA device namespace separation, which is essential for proper resource isolation in containerized environments.
 
 ## ⚙️ Role Variables
 
