@@ -1,0 +1,28 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: "{{ mc_name }}"
+  labels:
+    machineconfiguration.openshift.io/role: "{{ node_role }}"
+spec:
+# 1. Kernel Arguments (List of strings)
+  kernelArguments:
+    - "module_blacklist={{ module_blacklist }}"
+    - "default_hugepagesz={{ default_hugepagesz }}"
+    - "hugepagesz={{ hugepagesz }}"
+    - "hugepages={{ hugepages }}"
+    - intel_iommu=on
+    - iommu=pt
+    - pci=realloc=on
+      #  # 2. Kernel Module Blacklist
+      #  # This creates a file in /etc/modprobe.d/
+      #  config:
+      #    ignition:
+      #      version: 3.5.0
+      #    storage:
+      #      files:
+      #        - path: /etc/modprobe.d/blacklist-nouveau.conf
+      #          mode: 420 # Octal 0644
+      #          overwrite: true
+      #          contents:
+      #            source: data:,blacklist%20nouveau%0Aoptions%20nouveau%20modeset%3D0

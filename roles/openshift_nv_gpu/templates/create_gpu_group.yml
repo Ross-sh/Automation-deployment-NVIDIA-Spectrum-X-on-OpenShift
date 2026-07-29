@@ -1,0 +1,9 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: "{{ gpu_operator_namespace }}"
+  namespace: "{{ gpu_operator_namespace }}"
+spec:
+  targetNamespaces:
+    - "{{ gpu_operator_namespace }}"

@@ -1,0 +1,28 @@
+---
+apiVersion: configuration.net.nvidia.com/v1alpha1
+kind: NicConfigurationTemplate
+metadata:
+  name: spc-x-config
+  namespace: "{{ nv_namespace }}"
+spec:
+  nicSelector:
+    nicType: "{{ nic_type }}"
+    pciAddresses:
+    - "0000:18:00.0"
+    - "0000:3a:00.0"
+    - "0000:4d:00.0"
+    - "0000:5d:00.0"
+    - "0000:9b:00.0"
+    - "0000:ba:00.0"
+    - "0000:ca:00.0"
+    - "0000:db:00.0"
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
+  resetToDefault: false
+  template:
+    linkType: "{{ link_type }}"
+    numVfs: {{ num_vfs | int }}
+    spectrumXOptimized:
+      enabled: true
+      overlay: none
+      version: "{{ spctrx_opt_ver }}"

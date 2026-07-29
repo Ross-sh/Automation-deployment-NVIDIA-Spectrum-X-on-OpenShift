@@ -1,0 +1,10 @@
+---
+- name: Apply the Password Hasher Role
+  hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+
+  roles:
+    - role: ../roles/openshift_krn

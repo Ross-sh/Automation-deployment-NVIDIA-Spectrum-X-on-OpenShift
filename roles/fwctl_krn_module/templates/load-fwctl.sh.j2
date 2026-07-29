@@ -1,0 +1,46 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: 99-worker-fwctl-script
+spec:
+  config:
+    ignition:
+      version: 3.5.0
+    storage:
+      files:
+        - contents:
+            source: "{{ encoded_rules }}"
+          mode: 493 # Octal 0755
+          overwrite: true
+          path: /usr/local/bin/load-fwctl.sh
+    systemd:                                  
+      units:
+        - name: load-fwctl.service
+          enabled: false
+          contents: |
+            [Unit]
+            Description=Load fwctl kernel modules from MOFED container
+            After=crio.service kubelet.service
+            
+            [Service]
+            Type=oneshot
+            RemainAfterExit=yes
+            ExecStart=/usr/local/bin/load-fwctl.sh
+            
+            [Install]
+            WantedBy=multi-user.target
+            
+        - name: load-fwctl.timer
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Timer to load fwctl kernel modules after MOFED is ready
+            
+            [Timer]
+            OnBootSec=90s
+            OnUnitInactiveSec=60s
+            
+            [Install]
+            WantedBy=multi-user.target        # <-- Safer installation target

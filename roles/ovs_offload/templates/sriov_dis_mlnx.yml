@@ -1,0 +1,10 @@
+---
+kind: SriovOperatorConfig
+api_version: sriovnetwork.openshift.io/v1
+name: default
+namespace: openshift-sriov-network-operator
+definition:
+  spec:
+    disablePlugins:
+      - mellanox
+type: merge

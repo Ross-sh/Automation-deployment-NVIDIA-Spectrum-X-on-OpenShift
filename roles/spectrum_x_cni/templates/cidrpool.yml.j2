@@ -1,0 +1,20 @@
+---
+apiVersion: nv-ipam.nvidia.com/v1alpha1
+kind: CIDRPool
+metadata:
+  name: eth-rail{{ item }}
+  namespace: {{ cidrpool_nms }} 
+spec:
+  cidr: 172.{{ 16 + (item | int) * 2 }}.0.0/15
+  gatewayIndex: 0
+  perNodeNetworkPrefix: 31
+  routes:
+    - dst: 172.{{ 16 + (item | int) * 2 }}.0.0/15
+    - dst: 172.16.0.0/12
+  staticAllocations:
+    - gateway: 172.{{ 16 + (item | int) * 2 }}.0.5
+      nodeName: dell-h200-2
+      prefix: 172.{{ 16 + (item | int) * 2 }}.0.4/31
+    - gateway: 172.{{ 16 + (item | int) * 2 }}.0.7
+      nodeName: dell-h200-3
+      prefix: 172.{{ 16 + (item | int) * 2 }}.0.6/31

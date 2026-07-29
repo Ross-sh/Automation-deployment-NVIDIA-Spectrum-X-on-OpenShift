@@ -1,0 +1,11 @@
+---
+- name: Configuring OVS Offload
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+
+  roles:
+    - role: ../roles/ovs_offload

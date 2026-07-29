@@ -1,0 +1,44 @@
+---
+- name: Ensure destination directory exists
+  ansible.builtin.file:
+    path: outputs
+    state: directory
+    mode: '0755'
+
+- name: Generate NMState NMCP template for each rail
+  ansible.builtin.template:
+    src: templates/nncp_mtu_rail.j2
+    dest: "outputs/nncp-mtu-{{ rail | replace('_', '-') }}.yml"
+    mode: '0644'
+  loop: "{{ openshift_network_rails }}"
+  loop_control:
+    loop_var: rail
+
+- name: Apply NNCP manifests to the cluster individually
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    src: "outputs/nncp-mtu-{{ rail | replace('_', '-') }}.yml"
+    state: present
+  loop: "{{ openshift_network_rails }}"
+  loop_control:
+    loop_var: rail
+
+- name: Generate SriovNetworkNodePolicy template for each rail
+  ansible.builtin.template:
+    src: templates/snnp_eth_railx.j2
+    dest: "outputs/snnp-eth-{{ rail | replace('_', '-') }}.yml"
+    mode: '0644'
+  loop: "{{ openshift_network_rails }}"
+  loop_control:
+    loop_var: rail
+
+- name: Apply SR-IOV manifests to the cluster individually
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    src: "outputs/snnp-eth-{{ rail | replace('_', '-') }}.yml"
+    state: present
+  loop: "{{ openshift_network_rails }}"
+  loop_control:
+    loop_var: rail

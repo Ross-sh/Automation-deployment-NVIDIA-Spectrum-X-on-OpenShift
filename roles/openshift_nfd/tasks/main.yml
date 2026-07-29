@@ -1,0 +1,52 @@
+---
+- name: Fetch OpenShift cluster version securely
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    kind: ClusterVersion
+  register: cluster_version
+
+- name: Print cluster version
+  ansible.builtin.debug:
+    var: cluster_version.resources[0].status.desired.version
+
+- name: Create the openshift-nfd namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nfd_namespace.yml') }}"
+
+- name: Create the OperatorGroup for NFD
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nfd_oprgroup.yml') }}"
+
+- name: Create the NFD Operator Subscription
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nfd_subscription.yml') }}"
+
+- name: Wait until the NFD Operator CustomResourceDefinition is established
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    name: nodefeaturediscoveries.nfd.openshift.io
+  register: nfd_crd
+  until: nfd_crd.resources | length > 0
+  retries: 40
+  delay: 10
+
+- name: Create the NodeFeatureDiscovery Cluster Instance
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nfd_instance.yml') }}"
+

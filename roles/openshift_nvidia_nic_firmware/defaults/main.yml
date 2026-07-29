@@ -1,0 +1,8 @@
+---
+fwsource_name: "spc-x-doca-pcc"
+nv_namespace: "nvidia-network-operator"
+bfb_url_src: "https://content.mellanox.com/BlueField/FW-Bundle/bf-fwbundle-3.3.0-202_26.01-prod.bfb"
+nic_type: "a2dc"
+link_type: "Ethernet"
+spctrx_opt_ver: "RA2.1"
+num_vfs: "1"

@@ -1,0 +1,35 @@
+---
+- name: Generate OpenShift CIDRPool YAML files for rail0 to rail7
+  ansible.builtin.template:
+    src: templates/cidrpool.yml.j2
+    dest: "outputs/eth-rail{{ item }}.yml"
+    mode: '0644'
+  loop: "{{ range(0, 8) | list }}"
+
+- name: Apply OpenShift CIDRPool manifests to the cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    src: "outputs/eth-rail{{ item }}.yml"
+  loop: "{{ range(0, 8) | list }}"
+
+- name: Generate OVSNetwork custom resource manifest from Jinja2 template
+  ansible.builtin.template:
+    src: templates/ovsnetwork_eth_rail.j2
+    dest: "outputs/ovsnetwork_eth_{{ rail | replace('_', '-') }}.yml"
+    mode: '0644'
+  loop: "{{ openshift_network_rails }}"
+  loop_control:
+    loop_var: rail
+
+- name: Apply NNCP manifests to the cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    src: "outputs/ovsnetwork_eth_{{ rail | replace('_', '-') }}.yml"
+    state: present
+  loop: "{{ openshift_network_rails }}"
+  loop_control:
+    loop_var: rail
+

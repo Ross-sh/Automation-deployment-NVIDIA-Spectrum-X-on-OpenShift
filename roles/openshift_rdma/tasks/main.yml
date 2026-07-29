@@ -1,0 +1,11 @@
+---
+- name: IB Core RDMA Subsystem Namespace Contents
+  ansible.builtin.shell: "echo 'options ib_core netns_mode=0' | base64 -w 0"
+  register: ib_core
+
+- name: Deploy MachineConfig for RDMA 99-{{ machine_config_role }}-core-netns
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'rdma_machineconfig.yml') }}"

@@ -1,0 +1,74 @@
+---
+- name: Create PersistentVolume
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nfs_pv.yml') }}"
+
+- name: Create Namespace for NVIDIA Network Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nno_namespace.yml') }}"
+
+
+- name: Create persistent volume claim
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nfs_pvc.yml') }}"
+
+- name: Create OperatorGroup for NVIDIA Network Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nno_group.yml') }}"
+
+- name: Deploy NVIDIA Network Operator Subscription
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nno_subscription.yml') }}"
+
+- name: Wait for NVIDIA Network Operator CSV to succeed
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: operators.coreos.com/v1alpha1
+    kind: Subscription
+    name: "{{ nno_namespace }}"
+    namespace: "{{ nno_namespace }}"
+  register: subscription_info
+  until:
+    - subscription_info.resources[0].status.installedCSV is defined
+    - subscription_info.resources[0].status.installedCSV | length > 0
+  retries: 40
+  delay: 10
+
+- name: Confirm ClusterServiceVersion (CSV) is in Succeeded phase
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: operators.coreos.com/v1alpha1
+    kind: ClusterServiceVersion
+    name: "{{ subscription_info.resources[0].status.installedCSV }}"
+    namespace: "{{ nno_namespace }}"
+  register: csv_info
+  until:
+    - csv_info.resources[0].status.phase is defined
+    - csv_info.resources[0].status.phase == "Succeeded"
+  retries: 40
+  delay: 10
+
+- name: Create NicClusterPolicy CR to instantiate drivers
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nno_nicclusterpolicy.yml') }}"
+

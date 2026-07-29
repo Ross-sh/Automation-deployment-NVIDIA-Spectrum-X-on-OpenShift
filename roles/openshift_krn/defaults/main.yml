@@ -1,0 +1,7 @@
+---
+module_blacklist: irdma
+default_hugepagesz: 1G
+hugepagesz: 1G
+hugepages: 16
+mc_name: "99-kernel-customizations-{{ node_role }}"
+node_role: worker

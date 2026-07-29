@@ -1,0 +1,21 @@
+---
+- name: Configuring Nic Firmware
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_fw_source.yml') }}"
+
+- name: Create The NicFirmwareTemplate
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nic_fw_template.yml') }}"
+
+- name: Create The NicConfigurationTemplate
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nic_config_template.yml') }}"

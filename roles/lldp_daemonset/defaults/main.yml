@@ -1,0 +1,4 @@
+---
+lldp_nms: "nvidia-network-operator"
+lldp_image: "quay.io/rh-ee-rshaligi/sptr-x/lldpd:0.0.5" # Using preconfigured lldp image with parameters specified by NVIDIA
+lldp_acc_name: lldp-acc

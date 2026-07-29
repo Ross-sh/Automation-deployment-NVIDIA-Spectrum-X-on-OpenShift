@@ -1,0 +1,10 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: sriov-network-operators
+  namespace: "{{ sriov_namespace }}"
+spec:
+  targetNamespaces:
+    - "{{ sriov_namespace }}"
+  upgradeStrategy: Default

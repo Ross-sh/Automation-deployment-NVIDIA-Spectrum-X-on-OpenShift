@@ -1,0 +1,13 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: "{{ operator_name }}"
+  namespace: "{{ operator_namespace }}"
+spec:
+  channel: "{{ operator_channel }}"
+  installPlanApproval: "{{ nvidia_maintenance_install_plan_approval }}"
+  name: "{{ operator_name }}"
+  source: "{{ operator_source }}"
+  sourceNamespace: "{{ operator_source_namespace }}"
+  startingCSV: "{{ starting_csv }}" 

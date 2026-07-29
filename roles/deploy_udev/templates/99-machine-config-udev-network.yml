@@ -1,0 +1,18 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: "{{ udv_role }}"
+  name: "99-{{ udv_role }}-persistent-net-rules"
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+      - contents:
+        # source: "data:text/plain;charset=utf-8;base64,{{ udv_base64_rules }}"
+          source: "data:text/plain;charset=utf-8;base64,{{ lookup('file', '70-persistent-net.rules') | b64encode }}"
+        filesystem: root
+        mode: 420
+        path: "/etc/udev/rules.d/{{ udv_persist_name }}"

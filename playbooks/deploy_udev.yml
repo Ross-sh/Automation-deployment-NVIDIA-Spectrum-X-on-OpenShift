@@ -1,0 +1,11 @@
+---    
+- name: Apply 70-persistent-net.rules via MachineConfig
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+
+  roles:
+    - role:  ../roles/deploy_udev

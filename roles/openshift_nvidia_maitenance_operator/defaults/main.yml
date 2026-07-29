@@ -1,0 +1,9 @@
+---
+operator_namespace: nvidia-maintenance-operator
+operator_channel: v0.2
+operator_name: nvidia-maintenance-operator
+operator_source: certified-operators
+operator_source_namespace: openshift-marketplace
+starting_csv: nvidia-maintenance-operator.v0.2.3
+nvidia_maintenance_install_plan_approval: Automatic
+

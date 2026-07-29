@@ -1,0 +1,43 @@
+---
+- name: Ensure Namespace exists for NVIDIA Maintenance Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nv_mitenance_ns.yml') }}"
+
+- name: Create OperatorGroup for NVIDIA Maintenance Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nv_mitenance_group.yml') }}"
+
+- name: Subscribe to NVIDIA Maintenance Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nv_mitenance_subscription.yml') }}"
+
+- name: Wait for ClusterServiceVersion (CSV) to succeed
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: operators.coreos.com/v1alpha1
+    kind: ClusterServiceVersion
+    namespace: "{{ operator_namespace }}"
+  register: csv_list
+  until: >
+    csv_list.resources | length > 0 and
+    (csv_list.resources | map(attribute='status.phase') | unique == ['Succeeded'])
+  retries: 30
+  delay: 10
+
+- name: Create NVIDIA Maintenance Operator Configuration
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nv_mitenance_config.yml') }}"
+

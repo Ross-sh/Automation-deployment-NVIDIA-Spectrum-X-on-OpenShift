@@ -1,0 +1,8 @@
+---
+apiVersion: configuration.net.nvidia.com/v1alpha1
+kind: NicFirmwareSource
+metadata:
+  name: "{{ fwsource_name }}"
+  namespace: "{{ nv_namespace }}"
+spec:
+  bfbUrlSource: "{{ bfb_url_src }}"

@@ -1,0 +1,29 @@
+---
+- name: Create LLDP Namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    api_version: v1
+    kind: Namespace
+    name: "{{ lldp_nms }}"
+
+- name: Create LLDP Service Account
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    definition: "{{ lookup('template', 'create_lldp_srv_acc.yml') }}"
+
+- name: Allow DaemonSet to use privileged SCC
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'allow_scc_lldpdaemon.yml') }}"
+
+- name: Deploy LLDP DaemonSet
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'deploy_lldpdaemon.yml') }}"

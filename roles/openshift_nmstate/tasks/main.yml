@@ -1,0 +1,54 @@
+---
+- name: Fetch OpenShift cluster version securely
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    kind: ClusterVersion
+  register: cluster_version
+
+- name: Print cluster version
+  ansible.builtin.debug:
+    var: cluster_version.resources[0].status.desired.version
+
+- name: Create the openshift-nmstate namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nmstate_namespace.yml') }}"
+
+- name: Create the OperatorGroup for NMState
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nmstate_group.yml') }}"
+
+- name: Create the NMState Subscription
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nmstate_subscription.yml') }}"
+
+- name: Wait for NMState Operator deployment to be available
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: operators.coreos.com/v1alpha1
+    kind: ClusterServiceVersion
+    namespace: "{{ nmstate_namespace }}"
+  register: csv_list
+  until: >
+    csv_list.resources | selectattr('metadata.name', 'search', 'kubernetes-nmstate-operator')
+    | map(attribute='status.phase') | first | default('') == 'Succeeded'
+  retries: 40
+  delay: 10
+
+- name: Create the NMState Custom Resource (Instance)
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_nmstate_instance.yml') }}"
+

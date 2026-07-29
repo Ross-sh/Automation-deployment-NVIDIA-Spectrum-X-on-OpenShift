@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+state: present
+metadata:
+  name: "{{ lldp_acc_name }}"
+  namespace: "{{ lldp_nms }}"

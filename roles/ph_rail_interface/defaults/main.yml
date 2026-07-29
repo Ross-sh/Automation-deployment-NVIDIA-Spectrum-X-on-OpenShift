@@ -1,0 +1,24 @@
+---
+node_role: "worker"
+mtu_param: "9216"
+type: "ethernet"
+sriov_namespace: "openshift-sriov-network-operator"
+devicetype: "netdevice"
+eswitchmode: "switchdev"
+isrdma: true
+linktype: ETH
+numvfs: 1
+priority: 99
+ipam_type: "nv-ipam"
+pooltype: "cidrpool"
+metaplg_type: "rdma"
+networknamespace: "default"
+openshift_network_rails:
+  - eth_rail0
+  - eth_rail1
+  - eth_rail2
+  - eth_rail3
+  - eth_rail4
+  - eth_rail5
+  - eth_rail6
+  - eth_rail7

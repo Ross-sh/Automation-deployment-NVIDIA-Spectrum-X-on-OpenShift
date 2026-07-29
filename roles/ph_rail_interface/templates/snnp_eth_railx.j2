@@ -1,0 +1,23 @@
+---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkNodePolicy
+metadata:
+  name: {{ rail | replace('_', '-') }}
+  namespace: {{ sriov_namespace }}
+spec:
+  bridge:
+    ovs: {}
+  deviceType: {{ devicetype }}
+  eSwitchMode: {{ eswitchmode }}
+  isRdma: {{ isrdma }}
+  linkType: {{ linktype }}
+  mtu: {{ mtu_param }}
+  nicSelector:
+    pfNames:
+    - {{ rail }}
+  nodeSelector:
+    node-role.kubernetes.io/{{ node_role }}: ""
+  numVfs: {{ numvfs }}
+  priority: {{ priority }}
+  resourceName: {{ rail }}
+

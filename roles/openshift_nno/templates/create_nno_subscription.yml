@@ -1,0 +1,12 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: nvidia-network-operator
+  namespace: "{{ nno_namespace }}"
+spec:
+  channel: "{{ nno_version }}"
+  installPlanApproval: "{{ nvidia_net_operator_approval_strategy }}"
+  name: "{{ nno_namespace }}"
+  source: "{{ nvidia_net_operator_source }}"
+  sourceNamespace: "{{ nvidia_net_operator_source_namespace }}"

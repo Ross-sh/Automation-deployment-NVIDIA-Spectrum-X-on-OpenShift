@@ -1,0 +1,11 @@
+---    
+- name: Configuring LLDPD Daemonset
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+
+  roles:
+    - role: ../roles/lldp_daemonset

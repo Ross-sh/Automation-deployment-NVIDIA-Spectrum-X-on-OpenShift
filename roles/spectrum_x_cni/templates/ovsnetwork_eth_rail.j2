@@ -1,0 +1,19 @@
+---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: OVSNetwork
+metadata:
+  name: {{ rail | replace('_', '-') }}
+  namespace: {{ sriov_ns }}
+spec:
+  ipam: |
+    {
+      "type": "{{ ipam_type }}",
+      "poolName": "{{ rail | replace('_', '-') }}",
+      "poolType": "{{ pooltype }}"
+    }
+  metaPlugins: |
+    {
+      "type": "{{ metaplg_type }}"
+    }
+  networkNamespace: {{ networknamespace }}
+  resourceName: {{ rail }}

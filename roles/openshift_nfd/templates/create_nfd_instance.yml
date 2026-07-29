@@ -1,0 +1,26 @@
+---
+apiVersion: nfd.openshift.io/v1
+kind: NodeFeatureDiscovery
+metadata:
+  name: nfd-instance
+  namespace: "{{ nfd_namespace }}"
+spec:
+  instance: ''
+  operand:
+    servicePort: 12000
+  prunerOnDelete: false
+  topologyUpdater: false
+  workerConfig:
+    configData: |
+      core:
+        sleepInterval: 60s
+      sources:
+        pci:
+          deviceClassWhitelist:
+            - "02"
+            - "03"
+            - "0200"
+            - "0207"
+            - "12"
+          deviceLabelFields:
+            - "vendor"

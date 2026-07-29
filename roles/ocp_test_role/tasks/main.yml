@@ -1,0 +1,11 @@
+---
+- name: Fetch OpenShift cluster version securely
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    kind: ClusterVersion
+  register: cluster_version
+
+- name: Print cluster version
+  ansible.builtin.debug:
+    var: cluster_version.resources[0].status.desired.version

@@ -1,0 +1,10 @@
+---
+apiVersion: sriovnetwork.openshift.io/v1
+kind: SriovNetworkPoolConfig
+metadata:
+  name: "sriovnetworkpoolconfig-offload-{{ node_role }}"
+  namespace: "{{ ovs_off_nms }}"
+spec:
+  # Add fields here
+  ovsHardwareOffloadConfig:
+    name: "{{ node_role }}"

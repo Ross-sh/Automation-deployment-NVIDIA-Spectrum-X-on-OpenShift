@@ -1,0 +1,19 @@
+---
+- name: Generate SHA-512 password hash
+  ansible.builtin.set_fact:
+    hashed_password: "{{ core_password | ansible.builtin.password_hash('sha512') }}"
+
+- name: Print used parameters 
+  ansible.builtin.debug:
+    msg: 
+      There are used parameters KUBECONFIG - {{ k8s_kubeconfig }}
+      host api usrl - {{ ocp_api_url }}
+      password - {{ core_password }}
+      hashed_password - {{ hashed_password }}
+
+- name: Apply MachineConfig to update core user password
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'core_pass_mcp.yml') }}"

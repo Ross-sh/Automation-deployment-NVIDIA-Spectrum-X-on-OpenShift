@@ -1,0 +1,14 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  name: "custom-core-password-{{ node_role }}"
+  labels:
+    machineconfiguration.openshift.io/role: "{{ node_role }}"
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    passwd:
+      users:
+      - name: core
+        passwordHash: "{{ hashed_password }}"

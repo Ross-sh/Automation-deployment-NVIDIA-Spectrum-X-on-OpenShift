@@ -1,0 +1,6 @@
+---
+nmstate_namespace: openshift-nmstate
+nmstate_catalog_source: redhat-operators
+nmstate_catalog_source_namespace: openshift-marketplace
+nmstate_channel: stable
+

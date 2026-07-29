@@ -1,0 +1,25 @@
+---
+apiVersion: configuration.net.nvidia.com/v1alpha1
+kind: NicFirmwareTemplate
+metadata:
+  name: spectrum-x-configuration
+  namespace: "{{ nv_namespace }}"
+spec:
+  nodeSelector:
+    node-role.kubernetes.io/worker: ""
+  nicSelector:
+    nicType: "{{ nic_type }}" # BlueField-3 SuperNIC Type
+    pciAddresses:
+      - "0000:18:00.0"
+      - "0000:1a:00.0"
+      - "0000:3a:00.0"
+      - "0000:4d:00.0"
+      - "0000:5d:00.0"
+      - "0000:9b:00.0"
+      - "0000:ba:00.0"
+      - "0000:ca:00.0"
+      - "0000:cc:00.0"
+      - "0000:db:00.0"
+  template:
+    nicFirmwareSourceRef: "{{ fwsource_name }}"
+    updatePolicy: Update

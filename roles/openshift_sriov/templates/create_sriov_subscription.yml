@@ -1,0 +1,12 @@
+---
+apiVersion: operators.coreos.com/v1alpha1
+kind: Subscription
+metadata:
+  name: sriov-network-operator-subscription
+  namespace: "{{ sriov_namespace }}"
+spec:
+  channel: "{{ sriov_channel }}"
+  installPlanApproval: Automatic
+  name: sriov-network-operator
+  source: "{{ sriov_catalog_source }}"
+  sourceNamespace: "{{ sriov_catalog_source_namespace }}"

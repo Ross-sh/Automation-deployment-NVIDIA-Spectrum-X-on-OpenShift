@@ -1,0 +1,15 @@
+---
+gpu_operator_channel: "stable"
+gpu_operator_namespace: "nvidia-gpu-operator"
+gpo_kernelmodtype: open
+gpo_rdma_enabled: true
+gpo_gdrcopy_enabled: true
+nv_gpu_install_plan: Automatic
+nv_gpu_src: certified-operators
+nv_gpu_src_nms: openshift-marketplace
+nv_gpu_sub_name: gpu-operator-certified
+gpu_policy_name: gpu-cluster-policy
+gds_image: nvidia-fs
+gds_repo: "nvcr.io/nvidia/cloud-native"
+  # gds_version: "2.27.3"
+gds_version: "2.26.6"

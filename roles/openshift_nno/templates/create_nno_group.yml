@@ -1,0 +1,9 @@
+---
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: nvidia-network-operator-group
+  namespace: "{{ nno_namespace }}"
+spec:
+  targetNamespaces:
+    - "{{ nno_namespace }}"

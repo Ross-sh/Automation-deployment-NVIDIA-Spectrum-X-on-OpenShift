@@ -1,0 +1,3 @@
+---
+node_role: worker
+ovs_off_nms: openshift-sriov-network-operator

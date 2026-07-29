@@ -1,0 +1,73 @@
+---
+apiVersion: mellanox.com/v1alpha1
+kind: NicClusterPolicy
+metadata:
+  name: "{{ ncp_name }}"
+spec:
+  nicConfigurationOperator:
+    configurationDaemon:
+      containerResources:
+      - limits:
+          cpu: 1000m
+          memory: 10000Mi
+        name: "{{ nc_deamon_name }}"
+        requests:
+          cpu: 1000m
+          memory: 10000Mi
+      image: "{{ nco_deamon_image }}"
+      repository: "{{ nv_repository }}"
+      version: "network-operator-{{ nno_version }}.0"
+    logLevel: debug
+    nicFirmwareStorage:
+      availableStorageSize: 1Gi
+      create: false
+      pvcName: "{{ pvc_name }}"
+    operator:
+      containerResources:
+      - limits:
+          cpu: 1000m
+          memory: 10000Mi
+        name: "{{ nco_name }}"
+        requests:
+          cpu: 1000m
+          memory: 10000Mi
+      image: "{{ nco_name }}"
+      repository: "{{ nv_repository }}"
+      version: "network-operator-{{ nno_version }}.0"
+  nvIpam:
+    enableWebhook: false
+    image: "{{ nvpam_image }}"
+    repository: "{{ nv_repository }}"
+    version: "network-operator-{{ nno_version }}.0"
+  ofedDriver:
+    env:
+    - name: UNLOAD_STORAGE_MODULES
+      value: "true"
+    forcePrecompiled: false
+    image: "{{ ofed_driver_image }}"
+    livenessProbe:
+      initialDelaySeconds: 30
+      periodSeconds: 30
+    readinessProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 30
+    repository: "{{ nv_repository }}"
+    startupProbe:
+      initialDelaySeconds: 10
+      periodSeconds: 20
+    terminationGracePeriodSeconds: 300
+    upgradePolicy:
+      autoUpgrade: true
+      drain:
+        deleteEmptyDir: true
+        enable: true
+        force: true
+        timeoutSeconds: 300
+      maxParallelUpgrades: 1
+      safeLoad: false
+    version: "{{ doca_version }}" 
+  spectrumXOperator:
+    image: "{{ spct_operator_image }}"
+    repository: "{{ nv_repository }}"
+    version: "network-operator-{{ nno_version }}.0"
+

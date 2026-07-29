@@ -1,0 +1,18 @@
+---
+#- name: Configure OVS Offload - disable Mellanox plugin
+#  ansible.builtin.shell: |
+#    oc patch sriovoperatorconfigs.sriovnetwork.openshift.io -n openshift-sriov-network-operator default --patch '{ "spec": { "disablePlugins"    : ["mellanox"] } }' --type='merge'
+
+- name: Configure OVS Offload - disable Mellanox plugin
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig | default(omit) }}"
+    host: "{{ ocp_api_url | default(omit) }}"
+    state: patched
+    definition: "{{ lookup('template', 'sriov_dis_mlnx.yml') }}"
+
+- name: Configuring OVS Offload
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'sriov_network_pool_config_offload.yml') }}"

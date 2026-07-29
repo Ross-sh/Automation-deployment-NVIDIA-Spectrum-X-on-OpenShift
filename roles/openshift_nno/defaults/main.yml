@@ -1,0 +1,24 @@
+---
+pv_name: "nfs-nic-fw-storage"
+pvc_namespace: "nvidia-network-operator"
+storage_class: "nfs"
+storage_size: "10Gi"
+access_mode: "ReadWriteMany"
+nfs_server: "nvd-srv-39.nvidia.eng.rdu2.dc.redhat.com"
+pvc_name: "nic-fw-storage-pvc"
+storage_name: "nic-fw-storage"
+nno_namespace: nvidia-network-operator
+nno_version: v26.1
+nno_driver_version: doca3.2.0-25.10-1.2.8.0-2
+ncp_name: nic-cluster-policy
+nc_deamon_name: nic-configuration-daemon
+nco_deamon_image: nic-configuration-operator-daemon
+nv_repository: "nvcr.io/nvidia/mellanox"
+nco_name: nic-configuration-operator
+nvpam_image: nvidia-k8s-ipam
+doca_version: doca3.3.0-26.01-1.0.0.0-0
+spct_operator_image: spectrum-x-operator
+ofed_driver_image: doca-driver
+nvidia_net_operator_approval_strategy: Automatic
+nvidia_net_operator_source: certified-operators
+nvidia_net_operator_source_namespace: openshift-marketplace

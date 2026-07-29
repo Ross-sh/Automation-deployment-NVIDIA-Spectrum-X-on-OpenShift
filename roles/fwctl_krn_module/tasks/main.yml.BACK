@@ -1,0 +1,15 @@
+---
+- name: Ensure NIC Configuration Daemon logs available
+  ansible.builtin.shell: "cat files/fwctl_script.sh"
+  register: fwctl_script
+
+- name: URL encode the fwct_script.sh content (Required by MachineConfig)
+  ansible.builtin.set_fact:
+    encoded_rules: "{{ fwctl_script | urlencode }}"
+
+- name: Apply the fwctl sxcript to OCP Cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'mc_load_fwctl.yml') }}"

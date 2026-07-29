@@ -1,0 +1,7 @@
+---
+- name: Apply MachineConfig for Kernel Customizations
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'krn_machineconfig.yml') }}"

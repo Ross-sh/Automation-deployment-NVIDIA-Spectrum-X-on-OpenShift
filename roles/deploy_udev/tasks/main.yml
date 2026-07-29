@@ -1,0 +1,15 @@
+---
+- name: Ingest UDEV Rules
+  ansible.builtin.shell: "cat {{ udv_persist_name }}| base64 -w 0"
+  register: udv_base64_rules
+
+- name: Display script output
+  ansible.builtin.debug:
+    var: udv_base64_rules.stdout_lines
+
+- name: Apply MachineConfig to OCP Cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', '99-machine-config-udev-network.yml') }}"

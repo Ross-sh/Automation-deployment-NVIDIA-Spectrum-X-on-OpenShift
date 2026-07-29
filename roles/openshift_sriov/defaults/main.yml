@@ -1,0 +1,6 @@
+---
+sriov_namespace: openshift-sriov-network-operator
+sriov_catalog_source: redhat-operators
+sriov_catalog_source_namespace: openshift-marketplace
+sriov_channel: stable
+node_role: worker

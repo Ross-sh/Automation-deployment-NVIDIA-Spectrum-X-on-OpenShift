@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: lldpd-container
+  namespace: "{{ lldp_nms }}"
+  labels:
+    app: lldpd
+spec:
+  selector:
+    matchLabels:
+      app: lldpd
+  template:
+    metadata:
+      labels:
+        app: lldpd
+    spec:
+      serviceAccountName: "{{ lldp_acc_name }}"
+      hostNetwork: true
+      hostPID: true
+      containers:
+        - name: lldpd-container
+          image: "{{ lldp_image }}"
+          securityContext:
+            privileged: true

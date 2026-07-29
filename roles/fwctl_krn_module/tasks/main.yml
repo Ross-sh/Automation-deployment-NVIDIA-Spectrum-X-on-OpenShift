@@ -1,0 +1,11 @@
+---
+- name: Read and base64-encode the fwctl script
+  set_fact:
+    fwctl_script_base64: "{{ lookup('template', 'fwctl_script.sh.j2') | b64encode }}"
+
+- name: Apply the fwctl MachineConfig to OCP Cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'mc_load_fwctl.yml') }}"

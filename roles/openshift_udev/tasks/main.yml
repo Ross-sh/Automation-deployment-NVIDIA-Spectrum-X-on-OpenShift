@@ -1,0 +1,17 @@
+---
+- name: Execute the install Shell script
+  ansible.builtin.shell: |
+    ../roles/openshift_udev/files/remote-gpu-nic-rail-mapping.sh \
+    -g "{{ udv_gpuid }}" \
+    -n "{{ udv_nicid }}" \
+    -u "{{ udv_persist_name }}" \
+    -r "{{ udv_role }}" \
+    -c "{{ nodename }}"
+  become: false
+  register: script_output
+  changed_when: false
+
+- name: Show script results
+  ansible.builtin.debug:
+    var: script_output.stdout_lines
+

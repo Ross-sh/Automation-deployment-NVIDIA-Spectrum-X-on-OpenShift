@@ -1,0 +1,37 @@
+---
+- name: Create the NVIDIA GPU Operator namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_gpu_namespace.yml') }}"
+
+- name: Create OperatorGroup for NVIDIA GPU Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    definition: "{{ lookup('template', 'create_gpu_group.yml') }}"
+
+- name: Create Subscription for NVIDIA GPU Operator
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    definition: "{{ lookup('template', 'create_gpu_subscription.yml') }}"
+
+- name: Wait for Operator Custom Resource Definition (CRD) to be established
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: apiextensions.k8s.io/v1
+    kind: CustomResourceDefinition
+    name: clusterpolicies.nvidia.com
+  register: crd_status
+  until: crd_status.resources | length > 0
+  retries: 40
+  delay: 10
+
+- name: Deploy Nvidia ClusterPolicy (Installs drivers and runtimes)
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    definition: "{{ lookup('template', 'gpu_cluster_policy.yml') }}"

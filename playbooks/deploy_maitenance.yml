@@ -1,0 +1,11 @@
+---
+- name: Deploy NVIDIA Network Operator
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+
+  roles:
+    - role: ../roles/openshift_nvidia_maitenance_operator

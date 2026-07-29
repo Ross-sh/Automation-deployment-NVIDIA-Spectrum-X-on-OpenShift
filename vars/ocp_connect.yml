@@ -1,0 +1,3 @@
+---
+k8s_kubeconfig: "path to kubeconfig file"
+ocp_api_url: "https://api.to_yor_cluster:6443"

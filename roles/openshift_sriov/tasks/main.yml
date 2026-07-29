@@ -1,0 +1,55 @@
+---
+- name: Fetch OpenShift cluster version securely
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    kind: ClusterVersion
+  register: cluster_version
+
+- name: Print cluster version
+  ansible.builtin.debug:
+    var: cluster_version.resources[0].status.desired.version
+
+- name: Create the openshift-sriov namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_sriov_namespace.yml') }}"
+
+- name: Create the OperatorGroup
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_sriov_opr_group.yml') }}"
+
+- name: Create the SR-IOV Subscription
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_sriov_subscription.yml') }}"
+
+- name: Wait until the ClusterServiceVersion (CSV) is successfully installed
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    api_version: operators.coreos.com/v1alpha1
+    kind: ClusterServiceVersion
+    namespace: "{{ sriov_namespace }}"
+  register: csv_list
+  until: >
+    (csv_list.resources | default([])) |
+    selectattr('status.phase', 'defined') |
+    selectattr('status.phase', 'equalto', 'Succeeded') |
+    list | length > 0
+  retries: 40
+  delay: 10
+
+- name: Initialize the SriovOperatorConfig custom resource
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'create_sriov_instance.yml') }}"

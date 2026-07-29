@@ -1,0 +1,12 @@
+---
+- name: Configure Physical Rail Interface Attributes
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+    - ../config/rail_interface.yml
+
+  roles:
+    - role: ../roles/ph_rail_interface

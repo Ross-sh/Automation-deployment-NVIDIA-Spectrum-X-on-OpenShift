@@ -1,0 +1,3 @@
+---
+node_role: worker
+core_password: password
