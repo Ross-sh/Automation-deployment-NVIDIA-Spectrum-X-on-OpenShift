@@ -91,3 +91,8 @@ Before running any playbooks, ensure the following requirements are met:
     * PyYAML
 
 *    Network Access: Direct API access to the OpenShift master node API endpoint.
+
+* Main category
+  * Sub-item A
+  * Sub-item B
+* Another main category
