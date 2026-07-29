@@ -5,29 +5,22 @@ In multi-plane / multi-rail OpenShift deployments, host network interfaces (e.g.
 
 ⚙️ Role Variables
 --------------
+```
+udv_gpuid: "10de:2335"
+udv_nicid: "15b3:a2dc"
+udv_persist_name: 70-persistent-net.rules
+udv_role: worker
+nodename: dell-h200-2
+udv_mc_name: 99-machine-config-udev-network
+```
 
-
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
+How to run
 ----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+From the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/openshift_udev_create.yml # If you have preconfigured image with all required modules to run ansible
+```
+or
+```
+ansible-playbook -i playbooks/openshift_udev_create.yml
+```
