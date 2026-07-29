@@ -1,4 +1,4 @@
-Ansible Role:  openshift_rdma
+Ansible Role: Enable RDMA subsystem namespace awareness openshift_rdma
 =========
 
 Enable RDMA device namespace separation, which is essential for proper resource isolation in containerized environments.
