@@ -87,7 +87,7 @@ Before running any playbooks, ensure the following requirements are met:
 *    OpenShift CLI: oc tool installed and authenticated (oc login) to the target OCP cluster with cluster-admin privileges.
 
 *    Python Dependencies:
-    - kubernetes
-    - PyYAML
+    ** kubernetes
+    ** PyYAML
 
 *    Network Access: Direct API access to the OpenShift master node API endpoint.
