@@ -51,7 +51,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 ├── vars/
 │   ├── ocp_connect.yml
 ```
-🛠 General variable, Modules, Playbooks, and Roles Map
+
+## 🛠 General variable, Modules, Playbooks, and Roles Map
 
 * __Global variables located within the vars directory__
 
