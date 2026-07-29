@@ -82,9 +82,6 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 
 Before running any playbooks, ensure the following requirements are met:
 
-
-*    
-
 * Ansible: ansible-core >= 2.14
 * OpenShift CLI: oc tool installed and authenticated (oc login) to the target OCP cluster with cluster-admin privileges.
 * Python Dependencies
