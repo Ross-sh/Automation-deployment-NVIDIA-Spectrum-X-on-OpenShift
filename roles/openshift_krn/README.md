@@ -8,7 +8,7 @@ High-performance AI training workloads require low-latency kernel behavior, opti
 ```
 .
 roles/openshift_scp/
-├── README.md              # Role documentation
+├── README.md             # Role documentation
 ├── defaults/
 │   └── main.yml          # Default role variables
 ├── tasks/
@@ -27,3 +27,13 @@ mc_name: "99-kernel-customizations-{{ node_role }}"
 node_role: worker
 ```
 
+## How to run
+
+from the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/set_krn.yml # # If you have preconfigured image with all required modules to run ansible
+```
+or
+```
+ansible-playbook -i playbooks/set_krn.yml
+```
