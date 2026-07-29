@@ -49,6 +49,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── spectrum_x_cni
     └── fwctl_krn_module
 
+🛠 Modules, Playbooks, and Roles Map
+
 | Module / Function           | Playbook                                 | Role(s)                              | CRD / Sub-components                                     |
 |-----------------------------|------------------------------------------|--------------------------------------|----------------------------------------------------------|
 | User Management             | change_password.yml                      | openshift_scp                        | Set core user password for troubleshooting               |
