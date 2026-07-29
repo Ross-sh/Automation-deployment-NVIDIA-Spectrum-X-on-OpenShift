@@ -57,7 +57,7 @@ Global variables located within the vars directory
 
 | Module / Function           | Playbook                                 | Role(s)                              | CRD / Sub-components                                     |
 |-----------------------------|------------------------------------------|--------------------------------------|----------------------------------------------------------|
-| User Management             | change_password.yml                      | [openshift_scp](./roles/openshift_scp/) | Set core user password for troubleshooting               |
+| User Management             | change_password.yml                      | openshift_scp                        | Set core user password for troubleshooting               |
 | Kernel Tuning               | set_krn.yml                              | openshift_krn                        | Set Hugepages and IOMMU offset                           |
 | RDMA Subsystem              | openshift_rdma                           | openshift_rdma                       | Enable RDMA subsystem namespace awareness                |
 | UDEV Rules                  | openshift_udev_create.ymldeploy_udev.yml | openshift_udev                       | Set UDEV rules for Rail Device Names                     |
