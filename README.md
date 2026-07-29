@@ -14,8 +14,6 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 
 ```text
 .
-├── vars/
-│   ├── ocp_connect.yml
 ├── playbooks/
 │   ├── change_password.yml
 │   ├── set_krn.yml
@@ -50,6 +48,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── ph_rail_interface
     ├── spectrum_x_cni
     └── fwctl_krn_module
+├── vars/
+│   ├── ocp_connect.yml
 ```
 🛠 General variable, Modules, Playbooks, and Roles Map
 
