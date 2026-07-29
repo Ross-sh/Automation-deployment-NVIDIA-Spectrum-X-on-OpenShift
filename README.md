@@ -69,3 +69,20 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | Physical Rail Interfaces    | ph_rail_config.yml                       | ph_rail_interface                    | Configure physical rail interface attributes             |
 | Spectrum-X CNI              | config_sptrx_cni.yml                     | spectrum_x_cni                       | Configure Spectrum-X CNI and OVSNetwork Custom Resources |
 | FWCTL Module                | fwctl_config.yml                         | fwctl_krn_module                     | Configure FWCTL Kernel Module                            |
+
+
+🚀 Prerequisites
+
+Before running any playbooks, ensure the following requirements are met:
+
+    Ansible: ansible-core >= 2.14
+
+    OpenShift CLI: oc tool installed and authenticated (oc login) to the target OCP cluster with cluster-admin privileges.
+
+    Python Dependencies:
+
+        kubernetes
+
+        PyYAML
+
+    Network Access: Direct API access to the OpenShift master node API endpoint.
