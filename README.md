@@ -53,7 +53,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 
 🛠 General variable, Modules, Playbooks, and Roles Map
 
-**Global variables located within the vars directory**
+* __Global variables located within the vars directory__
 
 | Module / Function           | Playbook                                 | Role(s)                              | CRD / Sub-components                                     |
 |-----------------------------|------------------------------------------|--------------------------------------|----------------------------------------------------------|
