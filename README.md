@@ -61,7 +61,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | [User Management](roles/openshift_scp/)             | change_password.yml                      | openshift_scp                        | Set core user password for troubleshooting               |
 | [Kernel Tuning](roles/openshift_krn/)               | set_krn.yml                              | openshift_krn                        | Set Hugepages and IOMMU offset                           |
 | [RDMA Subsystem](roles/openshift_rdma/)              | openshift_rdma                           | openshift_rdma                       | Enable RDMA subsystem namespace awareness                |
-| [UDEV Rules](roels/openshift_udev/)                  | openshift_udev_create.ymldeploy_udev.yml | openshift_udev                       | Set UDEV rules for Rail Device Names                     |
+| [UDEV Rules](roles/openshift_udev/)                  | openshift_udev_create.ymldeploy_udev.yml | openshift_udev                       | Set UDEV rules for Rail Device Names                     |
 | [NFD Operator](roles/openshift_nfd/)                | deploy_nfd.yml                           | openshift_nfd                        | Install and configure Node Feature Discovery Operator    |
 | [SRIOV Operator](roles/openshift_sriov/)              | deploy_sriov.yml                         | openshift_sriov                      | Install and configure SR-IOV Network Operator            |
 | [NMState Operator](roles/openshift_nmstate)            | deploy_nmstate.yml                       | openshift_nmstate                    | Install and configure Kubernetes NMState Operator        |
