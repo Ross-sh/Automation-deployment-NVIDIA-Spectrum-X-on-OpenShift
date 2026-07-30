@@ -4,7 +4,7 @@
 * Role: Automates safe node maintenance workflows.
 * Impact: Coordinates node cordon and drain operations to protect running workloads whenever network drivers, GPU drivers, or low-level NIC firmware updates are initiated.
 
-## Role Structure
+## 🌲 Role Structure
 ```
 roles/openshift_nvidia_maitenance_operator
 ├── defaults
