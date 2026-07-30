@@ -6,15 +6,13 @@ High-performance AI training workloads require low-latency kernel behavior, opti
 
 ## 🌲 Role Structure
 ```
-.
-roles/openshift_scp/
-├── README.md             # Role documentation
-├── defaults/
-│   └── main.yml          # Default role variables
-├── tasks/
-│   └── main.yml          # Main entry point for role execution
-└── vars/
-    └── main.yml          # Role-specific internal variables
+roles/openshift_krn
+├── defaults
+│   └── main.yml
+├── tasks
+│   └── main.yml
+└── templates
+    └── krn_machineconfig.yml
 ```
 
 ## ⚙️ Role Variables
