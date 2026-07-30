@@ -33,7 +33,6 @@
   loop: "{{ openshift_network_rails }}"
   loop_control:
     loop_var: rail
-    pause: 20
 
 - name: Apply SR-IOV manifests to the cluster individually
   kubernetes.core.k8s:
