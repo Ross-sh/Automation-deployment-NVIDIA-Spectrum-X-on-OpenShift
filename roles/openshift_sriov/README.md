@@ -1,4 +1,4 @@
-## Ansible Role: SR-IOV Network Operator 
+## Ansible Role: SR-IOV Network Operator - openshift_sriov
 
 * Namespace: openshift-sriov-network-operator
 * Role: Configures Single Root I/O Virtualization (SR-IOV) on SuperNICs. Instantiates Virtual Functions (VFs), sets driver modes (netdevice or vfio-pci), and creates * NetworkAttachmentDefinitions (NADs).
