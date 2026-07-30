@@ -3,8 +3,22 @@ Ansible Role: Set UDEV rules for Rail Device Names openshift_udev
 
 In multi-plane / multi-rail OpenShift deployments, host network interfaces (e.g., eth0, eth1) can get assigned randomly across node reboots.
 
-⚙️ Role Variables
---------------
+## 🌲 Role Structure
+```
+roles/openshift_udev/
+├── ansible-navigator.log
+├── defaults
+│   └── main.yml
+├── files
+│   └── remote-gpu-nic-rail-mapping.sh
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+
+```
+## ⚙️ Role Variables
+
 ```
 udv_gpuid: "10de:2335"
 udv_nicid: "15b3:a2dc"
