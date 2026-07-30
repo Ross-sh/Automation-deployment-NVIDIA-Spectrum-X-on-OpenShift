@@ -54,7 +54,6 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 
 ## 🛠 General variable, Modules, Playbooks, and Roles Map
 
-* __Global variables located within the vars directory__
 
 | Module / Function           | Playbook                                 | Role(s)                              | CRD / Sub-components                                     |
 |-----------------------------|------------------------------------------|--------------------------------------|----------------------------------------------------------|
@@ -75,7 +74,13 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | [Spectrum-X CNI](roles/spectrum_x_cni/)              | config_sptrx_cni.yml                     | spectrum_x_cni                       | Configure Spectrum-X CNI and OVSNetwork Custom Resources |
 | [FWCTL Module](roles/fwctl_krn_module/)                | fwctl_config.yml                         | fwctl_krn_module                     | Configure FWCTL Kernel Module                            |
 
+* __Global variables located within the vars directory__
 
+## ⚙️ General Variables
+```
+k8s_kubeconfig: "path to kubeconfig file"
+ocp_api_url: "https://api.to_yor_cluster:6443"
+```
 
 
 🚀 Prerequisites
