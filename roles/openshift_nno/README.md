@@ -1,38 +1,69 @@
-Role Name
-=========
+## Ansible Role: NVIDIA Network Operator - openshift_nno
 
-A brief description of the role goes here.
+* Namespace: nvidia-network-operator
+* Role: Orchestrates the Spectrum-X networking software stack:
+  * Injects containerized MOFED (Mellanox OFED) kernel drivers into RHCOS.
+  * Deploys the RDMA Shared Device Plugin and SR-IOV CNI.
+  * Deploys NV-IPAM for parallel IP address allocation across multi-rail GPU networks.
 
-Requirements
-------------
+Because we have already installed the Node Feature Discovery (NFD) and the SR-IOV Network Operator, The NVIDIA Network Operator will automatically detect the presence of the SR-IOV Network Operator on OpenShift and integrate with it to manage NVIDIA/Mellanox networking hardware (like ConnectX NICs or BlueField DPUs).
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Role Variables
---------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## 🌲 Role Structure
+```
+roles/openshift_nno
+├── defaults
+│   └── main.yml
+├── files
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    ├── create_nfs_pvc.yml
+    ├── create_nfs_pv.yml
+    ├── create_nno_group.yml
+    ├── create_nno_namespace.yml
+    ├── create_nno_nicclusterpolicy.yml
+    └── create_nno_subscription.yml
+```
 
-Dependencies
-------------
+## ⚙️ Role Variables
+```
+pv_name: "nfs-nic-fw-storage"
+pvc_namespace: "nvidia-network-operator"
+storage_class: "nfs"
+storage_size: "10Gi"
+access_mode: "ReadWriteMany"
+nfs_server: "nvd-srv-39.nvidia.eng.rdu2.dc.redhat.com"
+pvc_name: "nic-fw-storage-pvc"
+storage_name: "nic-fw-storage"
+nno_namespace: nvidia-network-operator
+nno_version: v26.1
+nno_driver_version: doca3.2.0-25.10-1.2.8.0-2
+ncp_name: nic-cluster-policy
+nc_deamon_name: nic-configuration-daemon
+nco_deamon_image: nic-configuration-operator-daemon
+nv_repository: "nvcr.io/nvidia/mellanox"
+nco_name: nic-configuration-operator
+nvpam_image: nvidia-k8s-ipam
+doca_version: doca3.3.0-26.01-1.0.0.0-0
+spct_operator_image: spectrum-x-operator
+ofed_driver_image: doca-driver
+nvidia_net_operator_approval_strategy: Automatic
+nvidia_net_operator_source: certified-operators
+nvidia_net_operator_source_namespace: openshift-marketplace
+```
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+### Note
+To successfully install and configure all components required by Spectrum-X within the NVIDIA Network Operator, we must configure shared storage. In our setup, we utilize NFS storage, which is dynamically provisioned by the current playbook.
 
-Example Playbook
-----------------
+## How to run
+```
+ansible-navigator run -m stdout playbooks/deploy_nno.yml
+```
+or
+```
+ansible-playbook -i playbooks/deploy_nno.yml
+```
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
