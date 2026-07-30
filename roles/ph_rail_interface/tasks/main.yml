@@ -23,6 +23,7 @@
   loop: "{{ openshift_network_rails }}"
   loop_control:
     loop_var: rail
+    pause: 20
 
 - name: Generate SriovNetworkNodePolicy template for each rail
   ansible.builtin.template:
@@ -42,3 +43,4 @@
   loop: "{{ openshift_network_rails }}"
   loop_control:
     loop_var: rail
+    pause: 20
