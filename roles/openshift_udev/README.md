@@ -16,6 +16,16 @@ roles/openshift_udev/
 │   └── main.yml
 └── templates
 
+roles/deploy_udev/
+├── defaults
+│   └── main.yml
+├── files
+│   └── 70-persistent-net.rules
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    └── 99-machine-config-udev-network.yml
 ```
 ## ⚙️ Role Variables
 
@@ -37,4 +47,14 @@ ansible-navigator run -m stdout playbooks/openshift_udev_create.yml # If you hav
 or
 ```
 ansible-playbook -i playbooks/openshift_udev_create.yml
+```
+
+Once the script finish the operation we can continue to deploy section
+
+```
+ansible-navigator run -m stdout playbooks/deploy_udev.yml 
+```
+or
+```
+ansible-playbook -i playbooks/deploy_udev.yml
 ```
