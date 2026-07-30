@@ -1,38 +1,35 @@
-Role Name
-=========
+## Ansible Role: OVS Offload - ovs_offload
 
-A brief description of the role goes here.
+NVIDIA leverages ASAP² (Accelerated Switching and Packet Processing) technology to offload Open vSwitch (OVS) data-plane forwarding rules into the silicon of ConnectX SuperNICs or BlueField DPUs for line-rate hardware performance.
 
-Requirements
-------------
+Implementing this functionality within an OpenShift environment requires no additional modification to the NVIDIA Network Operator. Rather, you must mandate that the SR-IOV Network Operator migrates the embedded switch (eSwitch) on the network adapter. Specifically, you will transition the eSwitch from the standard legacy state into the accelerated switchdev operational mode. 
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## 🌲 Role Structure
+```
+roles/ovs_offload
+├── defaults
+│   └── main.yml
+├── files
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    ├── sriov_dis_mlnx.yml
+    └── sriov_network_pool_config_offload.yml
+```
 
-Role Variables
---------------
+## ⚙️ Role Variables
+```
+node_role: worker
+ovs_off_nms: openshift-sriov-network-operator
+```
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## How to run
+From the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/config_ovs_off.yml
+```
+or
+```
+ansible-playbook -i playbooks/config_ovs_off.yml
+```

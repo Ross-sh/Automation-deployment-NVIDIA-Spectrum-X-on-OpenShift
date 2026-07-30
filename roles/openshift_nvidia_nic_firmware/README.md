@@ -1,38 +1,45 @@
-Role Name
-=========
+## Ansible Role: NIC Configuration Operator - openshift_nvidia_nic_firmware
 
-A brief description of the role goes here.
+* Namespace: Integrated within nvidia-network-operator
+* Role: Configures low-level hardware parameters directly on ConnectX SuperNIC and BlueField DPU ASICs.
+* Key Tasks: Enforces link speed, PFC/ECN congestion profiles, firmware versions, PCIe boot settings, and custom interface renaming schemas (NicInterfaceNameTemplate). Operates under the protective drain/cordon umbrella provided by the Maintenance Operator.
 
-Requirements
-------------
+NVIDIA NIC Configuration Operator provides Kubernetes API(Custom Resource Definition) to allow FW configuration on Nvidia NICs in a coordinated manner. It deploys, based on settings in the NicClusterPolicy, a configuration daemon on each of the desired nodes to configure Nvidia NICs there. NVIDIA NIC Configuration Operator uses the Maintenance Operator to prepare a node for maintenance before the actual configuration.
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+In this playbook, we will install and configure the NIC firmware, the NicFirmwareTemplate and NicConfigurationTemplate.
 
-Role Variables
---------------
+## 🌲 Role Structure
+```
+roles/openshift_nvidia_nic_firmware
+├── defaults
+│   └── main.yml
+├── files
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    ├── create_fw_source.yml
+    ├── create_nic_config_template.yml
+    └── create_nic_fw_template.yml
+```
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+## ⚙️ Role Variables
+```
+fwsource_name: "spc-x-doca-pcc"
+nv_namespace: "nvidia-network-operator"
+bfb_url_src: "https://content.mellanox.com/BlueField/FW-Bundle/bf-fwbundle-3.3.0-202_26.01-prod.bfb"
+nic_type: "a2dc"
+link_type: "Ethernet"
+spctrx_opt_ver: "RA2.1"
+num_vfs: "1"
+```
 
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## How to run
+From the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/config_nic_fw.yml
+```
+or
+```
+ansible-playbook -i playbooks/config_nic_fw.yml
+```

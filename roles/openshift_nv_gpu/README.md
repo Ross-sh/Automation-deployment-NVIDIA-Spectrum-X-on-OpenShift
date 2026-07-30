@@ -1,38 +1,48 @@
-Role Name
-=========
+## Ansible Role: NVIDIA GPU Operator - openshift_nv_gpu
 
-A brief description of the role goes here.
+* Namespace: nvidia-gpu-operator
+* Role: Manages containerized GPU drivers, CUDA runtimes, Container Toolkit, and DCGM exporter (NVIDIA Data Center GPU Manager (DCGM) is a suite of enterprise tools used to manage, monitor, and troubleshoot NVIDIA GPUs at scale).
+* Spectrum-X Requirement: Deploys nvidia-peermem, the kernel module required for GPUDirect RDMA (GDR). This connects the active GPU driver with the underlying MOFED RDMA stack to allow ConnectX SuperNICs to write directly to GPU High Bandwidth Memory (HBM) over PCIe.
 
-Requirements
-------------
+## 🌲 Role Structure
+```
+roles/openshift_nv_gpu
+├── defaults
+│   └── main.yml
+├── files
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    ├── create_gpu_group.yml
+    ├── create_gpu_namespace.yml
+    ├── create_gpu_subscription.yml
+    └── gpu_cluster_policy.yml
+```
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## ⚙️ Role Variables
+```
+gpu_operator_channel: "stable"
+gpu_operator_namespace: "nvidia-gpu-operator"
+gpo_kernelmodtype: open
+gpo_rdma_enabled: true
+gpo_gdrcopy_enabled: true
+nv_gpu_install_plan: Automatic
+nv_gpu_src: certified-operators
+nv_gpu_src_nms: openshift-marketplace
+nv_gpu_sub_name: gpu-operator-certified
+gpu_policy_name: gpu-cluster-policy
+gds_image: nvidia-fs
+gds_repo: "nvcr.io/nvidia/cloud-native"
+gds_version: "2.26.6"
+```
 
-Role Variables
---------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## How to run
+From the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/deploy_gpu.yml
+```
+or
+```
+ansible-playbook -i playbooks/deploy_gpu.yml
+```
