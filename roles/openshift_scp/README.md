@@ -5,15 +5,14 @@ The first step is to assign a hash password to the core user variable using the 
 
 ## 🌲 Role Structure
 ```text
-.
 roles/openshift_scp/
-├── README.md              # Role documentation
-├── defaults/
-│   └── main.yml          # Default role variables
-├── tasks/
-│   └── main.yml          # Main entry point for role execution
-└── vars/
-    └── main.yml          # Role-specific internal variables
+├── defaults
+│   └── main.yml
+├── tasks
+│   └── main.yml
+└── templates
+    ├── core_pass_mcp.yml
+    └── core_pass_mcp.yml.j2
 ```
 
 ## ⚙️ Role Variables
