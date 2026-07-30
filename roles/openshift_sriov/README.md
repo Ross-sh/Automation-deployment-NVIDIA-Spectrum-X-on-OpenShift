@@ -1,38 +1,40 @@
-Role Name
-=========
+## Ansible Role: SR-IOV Network Operator - openshift_sriov
 
-A brief description of the role goes here.
+* Namespace: openshift-sriov-network-operator
+* Role: Configures Single Root I/O Virtualization (SR-IOV) on SuperNICs. Instantiates Virtual Functions (VFs), sets driver modes (netdevice or vfio-pci), and creates * NetworkAttachmentDefinitions (NADs).
+* Impact: Delivers hardware-bypassed direct access from pods to SuperNICs for sub-microsecond latency.
 
-Requirements
-------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+## 🌲 Role Structure
+```
+roles/openshift_sriov
+├── defaults
+│   └── main.yml
+├── files
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    ├── create_sriov_instance.yml
+    ├── create_sriov_namespace.yml
+    ├── create_sriov_opr_group.yml
+    └── create_sriov_subscription.yml
+```
 
-Role Variables
---------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## ⚙️ Role Variables
+```
+sriov_namespace: openshift-sriov-network-operator
+sriov_catalog_source: redhat-operators
+sriov_catalog_source_namespace: openshift-marketplace
+sriov_channel: stable
+node_role: worker
+```
+## How to run
+From the project root directory run the following command Bash
+```
+ansible-navigator run -m stdout playbooks/deploy_sriov.yml
+```
+or
+```
+ansible-playbook -i playbooks/deploy_sriov.yml
+```

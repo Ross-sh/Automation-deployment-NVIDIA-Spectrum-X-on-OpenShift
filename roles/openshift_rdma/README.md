@@ -11,15 +11,14 @@ node_role: worker
 
 ## 🌲 Role Structure
 ```
-.
 roles/openshift_rdma/
-├── README.md             # Role documentation
-├── defaults/
-│   └── main.yml          # Default role variables
-├── tasks/
-│   └── main.yml          # Main entry point for role execution
-└── vars/
-    └── main.yml          # Role-specific internal variables
+├── defaults
+│   └── main.yml
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    └── rdma_machineconfig.yml
 ```
 ## How to run
 from the project root directory run the following command Bash

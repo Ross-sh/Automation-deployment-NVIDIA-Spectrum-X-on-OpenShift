@@ -20,14 +20,17 @@ nfd_channel: "stable"
 ## 🌲 Role Structure
 ```
 roles/openshift_nfd/
-├── README.md             # Role documentation
-├── defaults/
-│   └── main.yml          # Default role variables
-├── files/
-├── tasks/
-│   └── main.yml          # Main entry point for role execution
-└── vars/
-    └── main.yml          # Role-specific internal variables
+├── defaults
+│   └── main.yml
+├── files
+├── README.md
+├── tasks
+│   └── main.yml
+└── templates
+    ├── create_nfd_instance.yml
+    ├── create_nfd_namespace.yml
+    ├── create_nfd_oprgroup.yml
+    └── create_nfd_subscription.yml
 ```
 
 ## How to run
