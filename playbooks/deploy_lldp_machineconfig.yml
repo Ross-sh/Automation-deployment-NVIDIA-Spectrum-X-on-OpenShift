@@ -1,5 +1,5 @@
----    
-- name: Configuring LLDPD Daemonset
+---
+- name: Enable native RHCOS lldpad service via MachineConfig
   hosts: localhost
   connection: local
   gather_facts: false
@@ -8,4 +8,4 @@
     - ../vars/ocp_connect.yml
 
   roles:
-    - role: ../roles/lldp_daemonset
+    - role: ../roles/lldp_machineconfig
