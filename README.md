@@ -27,7 +27,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 │   ├── deploy_maitenance.yml
 │   ├── config_nic_fw.yml
 │   ├── deploy_gpu.yml
-│   ├── deploy_lldp_daemonset.yml
+│   ├── deploy_lldp_machineconfig.yml
 │   ├── config_ovs_off.yml
 │   ├── ph_rail_config.yml
 │   ├── config_sptrx_cni.yml
@@ -43,7 +43,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── openshift_nvidia_maitenance_operator
     ├── openshift_nvidia_nic_firmware
     ├── openshift_nv_gpu
-    ├── lldp_daemonset
+    ├── lldp_machineconfig
     ├── ovs_offload
     ├── ph_rail_interface
     ├── spectrum_x_cni
@@ -68,7 +68,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | [NVIDIA Maintenance Operator](roles/openshift_nvidia_maitenance_operator/) | deploy_maitenance.yml                    | openshift_nvidia_maitenance_operator | Install and configure NVIDIA Maintenance Operator        |
 | [NIC Firmware](roles/openshift_nvidia_nic_firmware)                | config_nic_fw.yml                        | openshift_nvidia_nic_firmware        | Manage NicFirmwareTemplate & NicConfigurationTemplate    |
 | [NVIDIA GPU Operator](roles/openshift_nv_gpu/)         | deploy_gpu.yml                           | openshift_nv_gpu                     | Install and configure NVIDIA GPU Operator                |
-| [LLDPD Daemonset](roles/lldp_daemonset/)             | deploy_lldp_daemonset.yml                | lldp_daemonset                       | Deploy and configure LLDPD DaemonSet for link discovery  |
+| [LLDP MachineConfig](roles/lldp_machineconfig/)      | deploy_lldp_machineconfig.yml             | lldp_machineconfig                   | Enable native RHCOS `lldpad` service for link discovery |
 | [OVS Offload](roles/ovs_offload)                 | config_ovs_off.yml                       | ovs_offload                          | Configure Open vSwitch (OVS) Hardware Offload            |
 | [Physical Rail Interfaces](roles/ph_rail_interface/)    | ph_rail_config.yml                       | ph_rail_interface                    | Configure physical rail interface attributes             |
 | [Spectrum-X CNI](roles/spectrum_x_cni/)              | config_sptrx_cni.yml                     | spectrum_x_cni                       | Configure Spectrum-X CNI and OVSNetwork Custom Resources |

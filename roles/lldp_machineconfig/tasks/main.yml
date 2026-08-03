@@ -1,0 +1,28 @@
+---
+- name: Get cluster version
+  kubernetes.core.k8s_info:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    kind: ClusterVersion
+  register: cluster_version
+
+- name: Extract cluster minor version
+  ansible.builtin.set_fact:
+    ocp_minor_version: "{{ cluster_version.resources[0].status.desired.version.split('.')[1] | int }}"
+
+- name: Verify RHCOS ships lldpad on this cluster (OCPSTRAT-2580)
+  ansible.builtin.assert:
+    that:
+      - ocp_minor_version | int >= lldp_min_minor_version
+    fail_msg: >-
+      lldpad is only available starting OCP 4.19.z (RHEL 9.6 z-stream 9.6.20260408-0+),
+      default-enabled from 4.22 (see OCPSTRAT-2580). This cluster runs
+      4.{{ ocp_minor_version }}, which is below this repo's minimum supported version.
+    success_msg: "Cluster is 4.{{ ocp_minor_version }} — lldpad package should be present on RHCOS nodes."
+
+- name: Deploy MachineConfig to enable lldpad.service on {{ node_role }} nodes
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'lldp_machineconfig.yml') }}"
