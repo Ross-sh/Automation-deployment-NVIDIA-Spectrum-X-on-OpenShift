@@ -14,7 +14,7 @@ This role renders a `MachineConfig` that enables `lldpad.service` via Ignition. 
 - By default from **OCP 4.22+**
 - On **4.19/4.20/4.21** once the cluster has picked up the RHEL 9.6 z-stream build `9.6.20260408-0` or later
 
-This repo does not support OCP 4.18 and below. The role queries `ClusterVersion` and fails with a clear message if the cluster's minor version is below `lldp_min_minor_version` (default `19`). This is a coarse major.minor check — on 4.19-4.21 confirm the node's RHCOS z-stream actually includes `lldpad` before relying on it.
+This repo does not support OCP 4.18 and below. The role queries `ClusterVersion` and fails with a clear message if the cluster's major.minor version is below `lldp_min_version` (default `4.19`). This is a coarse major.minor check — on 4.19-4.21 confirm the node's RHCOS z-stream actually includes `lldpad` before relying on it.
 
 ### Caveat: bonded interfaces and br-ex
 
@@ -37,7 +37,7 @@ roles/lldp_machineconfig
 ## ⚙️ Role Variables
 ```
 node_role: worker
-lldp_min_minor_version: 19
+lldp_min_version: "4.19"
 ```
 
 ## How to run
