@@ -1,0 +1,64 @@
+---
+# Playbooks are imported at the top level so Ansible runs them in this order.
+# Run from the repository root with:
+#   ansible-playbook playbooks/main_playbook.yml
+
+- name: Test OpenShift connectivity
+  ansible.builtin.import_playbook: ./ocp_connect_test.yml
+
+- name: Change password
+  ansible.builtin.import_playbook: ./change_password.yml
+
+# Node-level configuration. These MachineConfig changes may cause node rollouts;
+# verify that nodes are Ready before proceeding with operator deployment.
+- name: Set kernel parameters
+  ansible.builtin.import_playbook: ./set_krn.yml
+
+- name: Configure RDMA
+  ansible.builtin.import_playbook: ./set_rdma.yml
+
+- name: Generate UDEV rules
+  ansible.builtin.import_playbook: ./openshift_udev_create.yml
+
+- name: Apply UDEV rules
+  ansible.builtin.import_playbook: ./deploy_udev.yml
+
+# Install the operators in the documented workflow order. NVIDIA Network
+# Operator depends on NFD and SR-IOV; NMState is used for rail configuration.
+- name: Deploy Node Feature Discovery
+  ansible.builtin.import_playbook: ./deploy_nfd.yml
+
+- name: Deploy SR-IOV Network Operator
+  ansible.builtin.import_playbook: ./deploy_sriov.yml
+
+- name: Deploy NMState
+  ansible.builtin.import_playbook: ./deploy_nmstate.yml
+
+- name: Deploy NVIDIA Network Operator
+  ansible.builtin.import_playbook: ./deploy_nno.yml
+
+- name: Deploy NVIDIA Maintenance Operator
+  ansible.builtin.import_playbook: ./deploy_maitenance.yml
+
+- name: Configure NIC firmware
+  ansible.builtin.import_playbook: ./config_nic_fw.yml
+
+- name: Deploy NVIDIA GPU Operator
+  ansible.builtin.import_playbook: ./deploy_gpu.yml
+
+- name: Deploy LLDP daemonset
+  ansible.builtin.import_playbook: ./deploy_lldp_daemonset.yml
+
+- name: Configure OVS offload
+  ansible.builtin.import_playbook: ./config_ovs_off.yml
+
+- name: Configure physical rail interfaces
+  ansible.builtin.import_playbook: ./ph_rail_config.yml
+
+- name: Configure Spectrum-X CNI
+  ansible.builtin.import_playbook: ./config_sptrx_cni.yml
+
+# This FWCTL module loader expects MOFED to be installed by NVIDIA Network
+# Operator, so keep it after the operator and network configuration stages.
+- name: Load FWCTL kernel modules for the NIC Configuration Daemon
+  ansible.builtin.import_playbook: ./fwctl_config.yml
