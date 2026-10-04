@@ -1,0 +1,4 @@
+---
+# Copy this file to vars/ocp_connect.yml and set values for your cluster.
+k8s_kubeconfig: "/absolute/path/to/kubeconfig"
+ocp_api_url: "https://api.<cluster-domain>:6443"

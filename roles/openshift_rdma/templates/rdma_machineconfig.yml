@@ -11,7 +11,7 @@ spec:
     storage:
       files:
       - contents:
-          source: "data:text/plain;base64,{{ ib_core.stdout }}"
+          source: "data:text/plain;base64,{{ 'options ib_core netns_mode=0' | b64encode }}"
         mode: 420
         overwrite: true
         path: /etc/modprobe.d/ib_core.conf

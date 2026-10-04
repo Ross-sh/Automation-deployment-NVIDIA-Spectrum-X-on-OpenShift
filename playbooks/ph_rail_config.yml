@@ -6,7 +6,7 @@
 
   vars_files:
     - ../vars/ocp_connect.yml
-    - ../config/rail_interface.yml
+#    - ../config/rail_interface.yml
 
   roles:
     - role: ../roles/ph_rail_interface

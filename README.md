@@ -77,9 +77,16 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 * __Global variables located within the vars directory__
 
 ## ⚙️ General Variables
+
+Before running the playbooks, create a local connection variables file from the example and set values for your cluster. The local file is ignored by Git.
+
+```bash
+cp vars/ocp_connect.example.yml vars/ocp_connect.yml
 ```
-k8s_kubeconfig: "path to kubeconfig file"
-ocp_api_url: "https://api.to_yor_cluster:6443"
+
+```
+k8s_kubeconfig: "/absolute/path/to/kubeconfig"
+ocp_api_url: "https://api.<cluster-domain>:6443"
 ```
 
 
