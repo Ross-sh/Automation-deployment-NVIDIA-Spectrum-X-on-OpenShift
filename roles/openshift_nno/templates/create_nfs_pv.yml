@@ -8,7 +8,8 @@ spec:
     storage: "{{ storage_size }}"
   accessModes:
     - "{{ access_mode }}"
+  storageClassName: "{{ storage_class }}"
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: "{{ nfs_server }}"
-    path: "/home/nfs-share/{{ storage_name }}"
+    path: "{{ nfs_path }}"

@@ -30,14 +30,14 @@ roles/openshift_nno
 
 ## ⚙️ Role Variables
 ```
-pv_name: "nfs-nic-fw-storage"
+pv_name: "nfs-nic-fw-storage-nvd-srv-39"
 pvc_namespace: "nvidia-network-operator"
-storage_class: "nfs"
+storage_class: "nfs-csi"
 storage_size: "10Gi"
 access_mode: "ReadWriteMany"
 nfs_server: "nvd-srv-39.nvidia.eng.rdu2.dc.redhat.com"
-pvc_name: "nic-fw-storage-pvc"
-storage_name: "nic-fw-storage"
+nfs_path: "/home/nfs-share/nic-fw-storage"
+pvc_name: "nic-fw-storage-pvc-nvd-srv-39"
 nno_namespace: nvidia-network-operator
 nno_version: v26.1
 nno_driver_version: doca3.2.0-25.10-1.2.8.0-2
@@ -66,4 +66,3 @@ or
 ```
 ansible-playbook -i playbooks/deploy_nno.yml
 ```
-

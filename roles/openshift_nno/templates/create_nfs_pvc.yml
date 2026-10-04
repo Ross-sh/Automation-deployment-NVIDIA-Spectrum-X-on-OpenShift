@@ -5,6 +5,7 @@ metadata:
   name: "{{ pvc_name }}"
   namespace: "{{ nno_namespace }}"
 spec:
+  storageClassName: "{{ storage_class }}"
   accessModes:
     - "{{ access_mode }}"
   resources:
