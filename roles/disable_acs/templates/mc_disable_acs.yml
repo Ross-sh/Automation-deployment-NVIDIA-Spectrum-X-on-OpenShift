@@ -17,21 +17,24 @@ spec:
             source: "data:text/plain;charset=utf-8;base64,{{ acs_script_base64 }}"
     systemd:
       units:
-        - name: dis-acs.service
+        - name: disable-acs.service
           enabled: true
           contents: |
             [Unit]
-            Description=Disable PCIe Access Control Services (ACS) for GPUDirect RDMA
-            DefaultDependencies=no
-            After=sysinit.target
-            Before=basic.target
+            Description=Disable PCIe ACS on NVIDIA GPU / NIC P2P paths (GPUDirect RDMA)
+            Documentation=man:setpci(8)
+            # ACS lives in extended PCI config space; devices must be enumerated first.
+            After=systemd-udev-settle.service
+            Wants=systemd-udev-settle.service
+
+            # Registers persist until reboot / FLR, so run once per boot, before
+            # the container runtime so pods never see the stock (ACS-on) state.
+            Before=crio.service kubelet.service
 
             [Service]
             Type=oneshot
-            ExecStart={{ acs_script_path }}
             RemainAfterExit=yes
-            StandardOutput=journal
-            StandardError=journal
+            ExecStart="{{ acs_script_path }}"
 
             [Install]
             WantedBy=multi-user.target

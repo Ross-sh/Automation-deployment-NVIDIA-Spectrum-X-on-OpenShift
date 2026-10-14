@@ -3,7 +3,7 @@
 
 - name: Read and base64-encode the disable-ACS script
   set_fact:
-    acs_script_base64: "{{ lookup('file', 'dis_acs.sh') | b64encode }}"
+    acs_script_base64: "{{ lookup('file', 'disable-acs.sh') | b64encode }}"
 
 - name: Apply the disable-ACS MachineConfig to OCP Cluster
   kubernetes.core.k8s:

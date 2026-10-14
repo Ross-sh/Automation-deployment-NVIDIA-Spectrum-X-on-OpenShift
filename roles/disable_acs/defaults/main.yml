@@ -8,4 +8,4 @@ acs_roles:
 #  - master
 
 # Path the script is dropped at on each node
-acs_script_path: /usr/local/bin/dis_acs.sh
+acs_script_path: /usr/local/bin/disable-acs.sh
