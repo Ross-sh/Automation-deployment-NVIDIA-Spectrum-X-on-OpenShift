@@ -1,0 +1,14 @@
+---
+# defaults file for disable_memlock
+
+# MachineConfigPool roles the memlock-ulimit MachineConfig is applied to.
+# Should list worker role only, unless running compact cluster or similar.
+memlock_roles:
+  - worker
+#  - master
+
+# CRI-O memlock ulimit (soft:hard). "-1:-1" means unlimited pinned memory.
+memlock_limit: "-1:-1"
+
+# Path the CRI-O drop-in config is written to on each node
+memlock_conf_path: /etc/crio/crio.conf.d/10-custom

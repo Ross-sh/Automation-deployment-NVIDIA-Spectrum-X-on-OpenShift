@@ -32,7 +32,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 │   ├── ph_rail_config.yml
 │   ├── config_sptrx_cni.yml
 │   ├── fwctl_config.yml
-│   └── disable_acs.yml
+│   ├── disable_acs.yml
+│   └── disable_memlock.yml
 └── roles/
     ├── openshift_scp
     ├── openshift_krn
@@ -49,7 +50,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── ph_rail_interface
     ├── spectrum_x_cni
     ├── fwctl_krn_module
-    └── disable_acs
+    ├── disable_acs
+    └── disable_memlock
 ├── vars/
 │   ├── ocp_connect.yml
 ```
@@ -76,6 +78,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | [Spectrum-X CNI](roles/spectrum_x_cni/)              | config_sptrx_cni.yml                     | spectrum_x_cni                       | Configure Spectrum-X CNI and OVSNetwork Custom Resources |
 | [FWCTL Module](roles/fwctl_krn_module/)                | fwctl_config.yml                         | fwctl_krn_module                     | Configure FWCTL Kernel Module                            |
 | [Disable PCIe ACS](roles/disable_acs/)            | disable_acs.yml                          | disable_acs                          | Disable PCIe ACS every boot for GPUDirect RDMA P2P DMA   |
+| [Increase memlock Limit](roles/disable_memlock/)            | disable_memlock.yml                      | disable_memlock                      | Raise CRI-O memlock ulimit for non-root RDMA workloads   |
 
 * __Global variables located within the vars directory__
 
