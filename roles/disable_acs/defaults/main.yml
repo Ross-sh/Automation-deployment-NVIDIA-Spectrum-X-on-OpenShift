@@ -1,0 +1,11 @@
+---
+# defaults file for disable_acs
+
+# MachineConfigPool roles the disable-ACS MachineConfig is applied to.
+# Should list worker role only, unless running compact cluster or similar.
+acs_roles:
+  - worker
+#  - master
+
+# Path the script is dropped at on each node
+acs_script_path: /usr/local/bin/dis_acs.sh

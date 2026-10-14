@@ -1,0 +1,37 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: "{{ acs_role }}"
+  name: "99-{{ acs_role }}-disable-acs"
+spec:
+  config:
+    ignition:
+      version: 3.4.0
+    storage:
+      files:
+        - path: "{{ acs_script_path }}"
+          mode: 493 # Octal 0755
+          overwrite: true
+          contents:
+            source: "data:text/plain;charset=utf-8;base64,{{ acs_script_base64 }}"
+    systemd:
+      units:
+        - name: dis-acs.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Disable PCIe Access Control Services (ACS) for GPUDirect RDMA
+            DefaultDependencies=no
+            After=sysinit.target
+            Before=basic.target
+
+            [Service]
+            Type=oneshot
+            ExecStart={{ acs_script_path }}
+            RemainAfterExit=yes
+            StandardOutput=journal
+            StandardError=journal
+
+            [Install]
+            WantedBy=multi-user.target
