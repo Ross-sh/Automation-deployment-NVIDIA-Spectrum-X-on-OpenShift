@@ -1,5 +1,5 @@
 ---
-# defaults file for disable_memlock
+# defaults file for increase_memlock
 
 # MachineConfigPool roles the memlock-ulimit MachineConfig is applied to.
 # Should list worker role only, unless running compact cluster or similar.

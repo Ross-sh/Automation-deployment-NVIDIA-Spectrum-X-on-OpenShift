@@ -3,7 +3,7 @@ kind: MachineConfig
 metadata:
   labels:
     machineconfiguration.openshift.io/role: "{{ memlock_role }}"
-  name: "02-{{ memlock_role }}-container-runtime"
+  name: "02-{{ memlock_role }}-rdma-memlock"
 spec:
   config:
     ignition:

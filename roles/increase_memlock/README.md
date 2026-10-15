@@ -1,4 +1,4 @@
-## Ansible Role: Disable memlock limit - disable_memlock
+## Ansible Role: Increase memlock limit - increase_memlock
 
 Running RDMA training jobs as a non-root user under the most restrictive OpenShift default security context requires an increased limit of pinned (locked) memory in the container engine. By default CRI-O caps `memlock`, which prevents non-root workloads from registering the memory regions RDMA needs.
 
@@ -12,7 +12,7 @@ References:
 
 ## 🌲 Role Structure
 ```
-roles/disable_memlock
+roles/increase_memlock
 ├── defaults
 │   └── main.yml
 ├── README.md
@@ -20,7 +20,7 @@ roles/disable_memlock
 │   └── main.yml
 └── templates
     ├── 10-custom.conf.j2
-    └── mc_disable_memlock.yml
+    └── mc_increase_memlock.yml
 ```
 
 ## Role Variables
@@ -34,11 +34,11 @@ roles/disable_memlock
 ## How to run
 From the project root directory run the following command:
 ```
-ansible-navigator run -m stdout playbooks/disable_memlock.yml
+ansible-navigator run -m stdout playbooks/increase_memlock.yml
 ```
 or
 ```
-ansible-playbook -i playbooks/disable_memlock.yml
+ansible-playbook playbooks/increase_memlock.yml
 ```
 
 ## Verification
@@ -48,3 +48,5 @@ oc debug node/<node> -q -- chroot /host sh -c \
     'cat /etc/crio/crio.conf.d/10-custom'
 ```
 The output should show the `default_ulimits` entry with the configured `memlock` value.
+
+*If you overrode `memlock_conf_path`, substitute that path for `/etc/crio/crio.conf.d/10-custom` above.*

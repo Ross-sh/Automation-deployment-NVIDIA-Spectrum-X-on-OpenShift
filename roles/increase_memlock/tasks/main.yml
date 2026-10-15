@@ -1,5 +1,5 @@
 ---
-# tasks file for disable_memlock
+# tasks file for increase_memlock
 
 - name: Render and base64-encode the CRI-O memlock drop-in config
   set_fact:
@@ -10,7 +10,7 @@
     kubeconfig: "{{ k8s_kubeconfig }}"
     host: "{{ ocp_api_url }}"
     state: present
-    definition: "{{ lookup('template', 'mc_disable_memlock.yml') }}"
+    definition: "{{ lookup('template', 'mc_increase_memlock.yml') }}"
   loop: "{{ memlock_roles }}"
   loop_control:
     loop_var: memlock_role

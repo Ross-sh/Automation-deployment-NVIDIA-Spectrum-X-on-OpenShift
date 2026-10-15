@@ -8,4 +8,4 @@
     - ../vars/ocp_connect.yml
 
   roles:
-    - role: ../roles/disable_memlock
+    - role: ../roles/increase_memlock
