@@ -1,0 +1,16 @@
+---
+# tasks file for disable_acs
+
+- name: Read and base64-encode the disable-ACS script
+  set_fact:
+    acs_script_base64: "{{ lookup('file', 'disable-acs.sh') | b64encode }}"
+
+- name: Apply the disable-ACS MachineConfig to OCP Cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'mc_disable_acs.yml') }}"
+  loop: "{{ acs_roles }}"
+  loop_control:
+    loop_var: acs_role

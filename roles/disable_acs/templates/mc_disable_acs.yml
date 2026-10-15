@@ -1,0 +1,56 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: "{{ acs_role }}"
+  name: "99-{{ acs_role }}-disable-acs"
+spec:
+  config:
+    ignition:
+      version: 3.4.0
+    storage:
+      files:
+        - path: "{{ acs_script_path }}"
+          mode: 493 # Octal 0755
+          overwrite: true
+          contents:
+            source: "data:text/plain;charset=utf-8;base64,{{ acs_script_base64 }}"
+    systemd:
+      units:
+        - name: disable-acs.service
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Disable PCIe ACS on NVIDIA GPU / NIC P2P paths (GPUDirect RDMA)
+            Documentation=man:setpci(8)
+            # ACS lives in extended PCI config space; devices must be enumerated first.
+            After=systemd-udev-settle.service
+            Wants=systemd-udev-settle.service
+
+            # Run at boot before the container runtime so pods never see the stock
+            # (ACS-on) state. ACS control registers are restored by a device reset /
+            # FLR, so disable-acs.timer re-runs this unit periodically to re-apply.
+            Before=crio.service kubelet.service
+
+            [Service]
+            Type=oneshot
+            # No RemainAfterExit: the unit must return to inactive so the timer can
+            # re-trigger it, and so the script exit code drives the unit status.
+            ExecStart="{{ acs_script_path }}"
+
+            [Install]
+            WantedBy=multi-user.target
+
+        - name: disable-acs.timer
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Periodically re-apply PCIe ACS disable (catches FLR / device reset)
+
+            [Timer]
+            # First re-check shortly after boot, then every minute thereafter.
+            OnBootSec=90s
+            OnUnitActiveSec=60s
+
+            [Install]
+            WantedBy=timers.target

@@ -31,7 +31,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 │   ├── config_ovs_off.yml
 │   ├── ph_rail_config.yml
 │   ├── config_sptrx_cni.yml
-│   └── fwctl_config.yml
+│   ├── fwctl_config.yml
+│   └── disable_acs.yml
 └── roles/
     ├── openshift_scp
     ├── openshift_krn
@@ -47,7 +48,8 @@ The automation suite is structured logically into reusable **Roles** and task-sp
     ├── ovs_offload
     ├── ph_rail_interface
     ├── spectrum_x_cni
-    └── fwctl_krn_module
+    ├── fwctl_krn_module
+    └── disable_acs
 ├── vars/
 │   ├── ocp_connect.yml
 ```
@@ -73,6 +75,7 @@ The automation suite is structured logically into reusable **Roles** and task-sp
 | [Physical Rail Interfaces](roles/ph_rail_interface/)    | ph_rail_config.yml                       | ph_rail_interface                    | Configure physical rail interface attributes             |
 | [Spectrum-X CNI](roles/spectrum_x_cni/)              | config_sptrx_cni.yml                     | spectrum_x_cni                       | Configure Spectrum-X CNI and OVSNetwork Custom Resources |
 | [FWCTL Module](roles/fwctl_krn_module/)                | fwctl_config.yml                         | fwctl_krn_module                     | Configure FWCTL Kernel Module                            |
+| [Disable PCIe ACS](roles/disable_acs/)            | disable_acs.yml                          | disable_acs                          | Disable PCIe ACS every boot for GPUDirect RDMA P2P DMA   |
 
 * __Global variables located within the vars directory__
 
