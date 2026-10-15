@@ -27,14 +27,30 @@ spec:
             After=systemd-udev-settle.service
             Wants=systemd-udev-settle.service
 
-            # Registers persist until reboot / FLR, so run once per boot, before
-            # the container runtime so pods never see the stock (ACS-on) state.
+            # Run at boot before the container runtime so pods never see the stock
+            # (ACS-on) state. ACS control registers are restored by a device reset /
+            # FLR, so disable-acs.timer re-runs this unit periodically to re-apply.
             Before=crio.service kubelet.service
 
             [Service]
             Type=oneshot
-            RemainAfterExit=yes
+            # No RemainAfterExit: the unit must return to inactive so the timer can
+            # re-trigger it, and so the script exit code drives the unit status.
             ExecStart="{{ acs_script_path }}"
 
             [Install]
             WantedBy=multi-user.target
+
+        - name: disable-acs.timer
+          enabled: true
+          contents: |
+            [Unit]
+            Description=Periodically re-apply PCIe ACS disable (catches FLR / device reset)
+
+            [Timer]
+            # First re-check shortly after boot, then every minute thereafter.
+            OnBootSec=90s
+            OnUnitActiveSec=60s
+
+            [Install]
+            WantedBy=timers.target
