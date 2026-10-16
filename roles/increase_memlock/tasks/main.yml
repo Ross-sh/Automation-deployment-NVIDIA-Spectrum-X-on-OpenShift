@@ -1,0 +1,16 @@
+---
+# tasks file for increase_memlock
+
+- name: Render and base64-encode the CRI-O memlock drop-in config
+  set_fact:
+    memlock_conf_base64: "{{ lookup('template', '10-custom.conf.j2') | b64encode }}"
+
+- name: Apply the CRI-O memlock MachineConfig to OCP Cluster
+  kubernetes.core.k8s:
+    kubeconfig: "{{ k8s_kubeconfig }}"
+    host: "{{ ocp_api_url }}"
+    state: present
+    definition: "{{ lookup('template', 'mc_increase_memlock.yml') }}"
+  loop: "{{ memlock_roles }}"
+  loop_control:
+    loop_var: memlock_role

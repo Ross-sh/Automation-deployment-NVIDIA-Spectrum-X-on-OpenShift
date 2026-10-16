@@ -1,0 +1,17 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: "{{ memlock_role }}"
+  name: "02-{{ memlock_role }}-rdma-memlock"
+spec:
+  config:
+    ignition:
+      version: 3.4.0
+    storage:
+      files:
+        - path: "{{ memlock_conf_path }}"
+          mode: 420 # Octal 0644
+          overwrite: true
+          contents:
+            source: "data:text/plain;charset=utf-8;base64,{{ memlock_conf_base64 }}"

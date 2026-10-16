@@ -1,0 +1,11 @@
+---
+- name: Increase CRI-O memlock limit for non-root RDMA workloads
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ../vars/ocp_connect.yml
+
+  roles:
+    - role: ../roles/increase_memlock
